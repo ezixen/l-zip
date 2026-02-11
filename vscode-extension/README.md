@@ -7,8 +7,8 @@ Compress your AI prompts by 40-70% while preserving meaning. Save tokens, reduce
 ## 🎯 Features
 
 ### Status Bar Integration
-- **L-ZIP MCP Toggle** - Enable/disable MCP status indicator
-- **L-ZIP Estimator** - Real-time token savings calculator
+- **L-ZIP Toggle** - Enable/disable MCP integration
+- **L-ZIP Translator** - Translate prompts to L-ZIP format
 
 ### Smart Prompt Compression
 - **Context-aware compression** - Removes filler words intelligently
@@ -19,10 +19,12 @@ Compress your AI prompts by 40-70% while preserving meaning. Save tokens, reduce
 - **Extended operators** - IMAGE, CODE, CONTENT specific tags
 
 ### Copy & Paste Ready
-- One-click copy of compressed prompts
-- Visual comparison of original vs compressed
+- Paste your prompt into the translator
+- Get instant L-ZIP translation
+- One-click copy of translated prompts
+- Visual comparison of original vs translated
 - Real-time token count and savings percentage
-- Prominent display of L-ZIP translation at the top
+- Use the result directly in your AI of choice
 
 ## 📊 Example
 
@@ -76,12 +78,12 @@ Theme is Weekend Magic Festival...
 1. Install the extension (see above)
 2. Restart VS Code
 3. Look for status bar buttons at the bottom right:
-   - **✓ L-ZIP MCP** - Toggle MCP enable/disable
-   - **🧪 L-ZIP Estimator** - Open token calculator
-4. Click **🧪 L-ZIP Estimator** to test
+   - **✓ L-ZIP** - Toggle MCP enable/disable
+   - **📋 L-ZIP Translator** - Open translator
+4. Click **📋 L-ZIP Translator** to open
 5. Paste your prompt in the input box
-6. Copy the compressed version with one click
-7. Use it with any AI model (ChatGPT, Claude, Gemini, etc.)
+6. Copy the L-ZIP translation with one click
+7. Paste into ChatGPT, Claude, Gemini, or any AI
 
 ## 📋 Requirements
 
@@ -93,7 +95,7 @@ Theme is Weekend Magic Festival...
 | Setting | Description | Default |
 |---------|-------------|---------|
 | `lzip.pythonPath` | Python executable path | `"python"` |
-| `lzip.estimatorDefaultText` | Placeholder text for estimator | `"Insert prompt..."` |
+| `lzip.translatorDefaultText` | Placeholder text for translator | `"Paste prompt here..."` |
 
 ## 🎨 Usage Tips
 

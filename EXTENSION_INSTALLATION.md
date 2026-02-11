@@ -54,12 +54,12 @@ After installation:
 
 1. **Restart VS Code** completely
 2. **Look at the bottom right of the status bar** - you should see:
-   - `✓ L-ZIP MCP` - Current status indicator
-   - `🧪 L-ZIP Estimator` - Token calculator button
+   - `✓ L-ZIP` - Current status indicator
+   - `📋 L-ZIP Translator` - Translator button
 3. **Test the extension:**
-   - Click "🧪 L-ZIP Estimator"
+   - Click "📋 L-ZIP Translator"
    - Paste a prompt
-   - See token savings calculated
+   - Get the L-ZIP translation instantly
 
 ## ⚙️ Configuration
 
@@ -68,31 +68,31 @@ Configure the extension in VS Code settings (`Ctrl+,` or `Cmd+,`):
 ```json
 {
   "lzip.pythonPath": "python",
-  "lzip.estimatorDefaultText": " Insert prompt to get an estimate of the token difference."
+  "lzip.translatorDefaultText": " Paste your prompt here to translate to L-ZIP format."
 }
 ```
 
 | Setting | Description | Default |
 |---------|-------------|---------|
 | `lzip.pythonPath` | Path to Python executable | `"python"` |
-| `lzip.estimatorDefaultText` | Placeholder text in estimator | `" Insert prompt..."` |
+| `lzip.translatorDefaultText` | Placeholder text in translator | `" Paste prompt..."` |
 
 ## 🎯 Features
 
 ### Status Bar Buttons
 
-- **L-ZIP MCP Toggle** (`✓ L-ZIP MCP`)
-  - Click to enable/disable MCP status
+- **L-ZIP Toggle** (`✓ L-ZIP`)
+  - Click to enable/disable MCP integration
   - Persists across sessions
   - Tooltip shows current state
 
-- **L-ZIP Estimator** (`🧪 L-ZIP Estimator`)
-  - Click to open token calculator
-  - Enter any prompt to estimate compression
-  - See original tokens vs L-ZIP tokens
-  - View percentage savings
-  - Copy compressed version to clipboard
-  - Hover tooltip shows last calculation
+- **L-ZIP Translator** (`📋 L-ZIP Translator`)
+  - Click to open the prompt translator
+  - Paste any prompt to translate to L-ZIP format
+  - See original vs L-ZIP version side-by-side
+  - View token savings and compression percentage
+  - Copy translated version to clipboard
+  - Hover tooltip shows last translation details
 
 ### Token Estimator
 
@@ -105,7 +105,7 @@ When you click the estimator button:
    - L-ZIP translation
    - Token count comparison
    - Percentage saved
-4. **One-click copy** of the compressed prompt
+4. **One-click copy** of the L-ZIP translation
 
 ## 🔧 Troubleshooting
 
@@ -121,23 +121,23 @@ When you click the estimator button:
 
 ### Compression Not Working?
 - Verify L-ZIP is available in parent folder
-- Check browser console (F12) for JavaScript errors
+- Check Python can run the translator
 - Review Output panel for Python errors
 
 ### Extension Won't Activate?
-- Clear VS Code cache: `rm -rf ~/.vscode/extensions/extz-*`
+- Clear VS Code cache: `rm -rf ~/.vscode/extensions/ezixen-lzip*`
 - Reinstall the extension
-- Check Output → Extension Host for errors
+- Check Output → L-ZIP Translator for errors
 
 ## 📚 Usage Tips
 
 ### Quick Workflow
 1. Prepare a verbose prompt
-2. Click 🧪 L-ZIP Estimator
+2. Click 📋 L-ZIP Translator
 3. Paste your prompt
 4. Review the L-ZIP translation
 5. Click "Copy L-ZIP Translation" button
-6. Paste into ChatGPT, Claude, Gemini, etc.
+6. Paste into ChatGPT, Claude, Gemini, or another AI
 7. Get faster, more focused responses
 
 ### Token Savings Example

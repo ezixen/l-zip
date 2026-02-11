@@ -56,8 +56,8 @@
         "title": "L-ZIP: Toggle MCP"
       },
       {
-        "command": "lzip.toggleEstimator",
-        "title": "L-ZIP: Toggle Estimator"
+        "command": "lzip.toggleTranslator",
+        "title": "L-ZIP: Toggle Translator"
       }
     ],
     "configuration": {
@@ -68,10 +68,10 @@
           "default": "python",
           "description": "Python executable used to run the L-ZIP translator."
         },
-        "lzip.estimatorDefaultText": {
+        "lzip.translatorDefaultText": {
           "type": "string",
-          "default": " Insert prompt to get an estimate of the token difference.",
-          "description": "Default text for the estimator input box."
+          "default": " Paste a prompt to translate to L-ZIP format.",
+          "description": "Default text for the translator input box."
         }
       }
     }

@@ -25,9 +25,18 @@ dist/
 *.egg-info/
 
 # Testing
+test_lzip.py
+validate.py
+lzip_debug.py
+demo_lzip.py
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Node/Extension
+node_modules/
+*.vsix
+vscode-extension/node_modules/
 
 # Config 
 config.local.json
@@ -45,3 +54,4 @@ logs/
 # Temporary files
 *.tmp
 *.bak
+*.zip

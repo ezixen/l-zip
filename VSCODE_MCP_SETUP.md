@@ -15,24 +15,9 @@ cd l-zip
 pip install -r requirements.txt
 ```
 
-### Step 2: Configure VS Code
+### Step 2: Install L-ZIP VS Code Extension
 
-1. Open VS Code Settings (JSON):
-   - Press `Ctrl+Shift+P`
-   - Type: "Preferences: Open User Settings (JSON)"
-   - Press Enter
-
-2. Add Java JDK configuration:
-
-```json
-{
-  "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot"
-}
-```
-
-### Step 3: Install L-ZIP VS Code Extension
-
-Load the local extension for status bar + token estimator:
+Load the local extension for status bar + prompt translator:
 
 1. Open VS Code
 2. Press `Ctrl+Shift+P` → "Extensions: Install from VSIX"
@@ -95,10 +80,10 @@ print(f"Expanded: {expanded}")
 
 ### Method C: VS Code Extension
 
-Built-in status bar tools for token estimation:
+Built-in status bar tools for prompt translation:
 
-1. **L-ZIP MCP Toggle** - Shows enabled/disabled status
-2. **L-ZIP Estimator** - Enter prompts to see compression
+1. **L-ZIP Toggle** - Shows enabled/disabled status
+2. **L-ZIP Translator** - Enter prompts to get L-ZIP translation
 
 ---
 

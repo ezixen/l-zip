@@ -7,9 +7,9 @@ const MCP_STATE_KEY = 'lzip.mcpEnabled';
 function activate(context) {
   console.log('L-ZIP extension is activating...');
   
-  const outputChannel = vscode.window.createOutputChannel('L-ZIP Estimator');
-  let estimatorVisible = false;
-  let lastEstimate = null;
+  const outputChannel = vscode.window.createOutputChannel('L-ZIP Translator');
+  let translatorVisible = false;
+  let lastTranslation = null;
 
   const toggleStatusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
@@ -17,29 +17,36 @@ function activate(context) {
   );
   toggleStatusBar.command = 'lzip.toggleMcp';
 
-  const estimatorStatusBar = vscode.window.createStatusBarItem(
+  const translatorStatusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
     99
   );
-  estimatorStatusBar.command = 'lzip.toggleEstimator';
+  translatorStatusBar.command = 'lzip.toggleTranslator';
 
   const updateStatusBar = () => {
     const enabled = context.globalState.get(MCP_STATE_KEY, true);
-    toggleStatusBar.text = enabled ? '$(check) L-ZIP MCP' : '$(circle-slash) L-ZIP MCP';
+    toggleStatusBar.text = enabled ? '$(check) L-ZIP' : '$(circle-slash) L-ZIP';
     toggleStatusBar.tooltip = enabled
-      ? 'L-ZIP MCP is enabled. Click to disable.'
-      : 'L-ZIP MCP is disabled. Click to enable.';
-    estimatorStatusBar.text = '$(beaker) L-ZIP Estimator';
-    if (lastEstimate) {
-      estimatorStatusBar.tooltip =
-        `Tokens saved (rough): ${lastEstimate.savedTokens} ` +
-        `(${lastEstimate.percentSaved}%). Click to ${
-          estimatorVisible ? 'close' : 'open'
-        }.`;
+      ? 'L-ZIP is enabled. Click to disable.'
+      : 'L-ZIP is disabled. Click to enable.';
+    
+    // Only show translator button when MCP is enabled
+    if (enabled) {
+      translatorStatusBar.text = '$(beaker) L-ZIP Translator';
+      if (lastTranslation) {
+        translatorStatusBar.tooltip =
+          `Tokens saved: ${lastTranslation.savedTokens} ` +
+          `(${lastTranslation.percentSaved}%). Click to ${
+            translatorVisible ? 'close' : 'open'
+          }.`;
+      } else {
+        translatorStatusBar.tooltip = translatorVisible
+          ? 'L-ZIP translator is open. Click to close.'
+          : 'Open the L-ZIP translator.';
+      }
+      translatorStatusBar.show();
     } else {
-      estimatorStatusBar.tooltip = estimatorVisible
-        ? 'L-ZIP estimator is open. Click to close.'
-        : 'Open the L-ZIP estimator.';
+      translatorStatusBar.hide();
     }
   };
 
@@ -48,29 +55,29 @@ function activate(context) {
     await context.globalState.update(MCP_STATE_KEY, !enabled);
     updateStatusBar();
     vscode.window.showInformationMessage(
-      `L-ZIP MCP ${!enabled ? 'enabled' : 'disabled'}.`
+      `L-ZIP ${!enabled ? 'enabled' : 'disabled'}.`
     );
   });
 
-  const toggleEstimator = vscode.commands.registerCommand(
-    'lzip.toggleEstimator',
+  const toggleTranslator = vscode.commands.registerCommand(
+    'lzip.toggleTranslator',
     async () => {
-      if (estimatorVisible) {
+      if (translatorVisible) {
         outputChannel.hide();
-        estimatorVisible = false;
+        translatorVisible = false;
         updateStatusBar();
         return;
       }
 
       const config = vscode.workspace.getConfiguration('lzip');
       const defaultText = config.get(
-        'estimatorDefaultText',
-        ' Insert prompt to get an estimate of the token difference.'
+        'translatorDefaultText',
+        ' Paste a prompt to get L-ZIP translation.'
       );
 
       const promptText = await vscode.window.showInputBox({
-        title: 'L-ZIP Token Estimator',
-        prompt: 'Paste or type a prompt to estimate token savings.',
+        title: 'L-ZIP Translator',
+        prompt: 'Paste a prompt to translate to L-ZIP format.',
         value: defaultText,
         valueSelection: [0, defaultText.length]
       });
@@ -120,7 +127,7 @@ function activate(context) {
           : 0;
 
       outputChannel.clear();
-      outputChannel.appendLine('L-ZIP Token Estimator');
+      outputChannel.appendLine('L-ZIP Translator');
       outputChannel.appendLine('='.repeat(60));
       outputChannel.appendLine('');
       
@@ -151,7 +158,7 @@ function activate(context) {
       }
 
       outputChannel.show(true);
-      estimatorVisible = true;
+      translatorVisible = true;
       
       // Show info message with option to copy
       if (lzipPrompt) {
@@ -166,7 +173,7 @@ function activate(context) {
         });
       }
       
-      lastEstimate = {
+      lastTranslation = {
         savedTokens,
         percentSaved
       };
@@ -176,15 +183,14 @@ function activate(context) {
 
   context.subscriptions.push(
     toggleStatusBar,
-    estimatorStatusBar,
+    translatorStatusBar,
     toggleMcp,
-    toggleEstimator,
+    toggleTranslator,
     outputChannel
   );
 
   updateStatusBar();
   toggleStatusBar.show();
-  estimatorStatusBar.show();
   
   console.log('L-ZIP extension activated successfully. Status bar items should be visible.');
 }
