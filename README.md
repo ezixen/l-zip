@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="logo.jpg" alt="EZIXEN Logo" width="200"/>
+  <img src="logo.jpg" alt="EZIXEN Logo"/>
 </div>
 
-# L-ZIP: Logic-based Zero-redundancy Information Prompting
+# Logic-based Zero-redundancy Information Prompting
 
 **By [ezixen](https://github.com/ezixen)**
 
