@@ -1,1 +1,3 @@
-mcp-core>=0.1.0; python_version >= "3.8"
+# L-ZIP has zero external dependencies!
+# Uses only Python standard library (re, typing, dataclasses)
+# This keeps the package lightweight and secure.
