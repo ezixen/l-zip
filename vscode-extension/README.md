@@ -39,13 +39,49 @@ Make a picture in high quality, nice realistic looks, happy, kind, fantasy style
 Theme is Weekend Magic Festival...
 ```
 
+## 🚀 Installation
+
+### Option 1: Install from VS Code Extensions (Recommended)
+1. Open VS Code
+2. Go to Extensions (`Ctrl+Shift+X`)
+3. Search for `L-ZIP`
+4. Click **Install**
+5. Restart VS Code
+
+### Option 2: Install from File
+1. Download the extension from the [GitHub repository](https://github.com/ezixen/L-ZIP)
+2. Navigate to `vscode-extension/` folder
+3. Package it:
+   ```bash
+   cd vscode-extension
+   npx vsce package
+   ```
+4. In VS Code: `Ctrl+Shift+P` → "Extensions: Install from VSIX"
+5. Select the `.vsix` file
+
+### Option 3: Manual Installation (Development)
+1. Clone the L-ZIP repository:
+   ```bash
+   git clone https://github.com/ezixen/L-ZIP.git
+   cd L-ZIP/vscode-extension
+   ```
+2. Copy to VS Code extensions folder:
+   - **Windows:** `%USERPROFILE%\.vscode\extensions\ezixen.lzip-vscode-0.0.1\`
+   - **macOS:** `~/.vscode/extensions/ezixen.lzip-vscode-0.0.1/`
+   - **Linux:** `~/.vscode/extensions/ezixen.lzip-vscode-0.0.1/`
+3. Restart VS Code
+
 ## 🚀 Quick Start
 
-1. Install the extension
-2. Click the **🧪 L-ZIP Estimator** button in the status bar
-3. Paste your prompt
-4. Copy the compressed version with one click
-5. Use it with any AI model (ChatGPT, Claude, Gemini, etc.)
+1. Install the extension (see above)
+2. Restart VS Code
+3. Look for status bar buttons at the bottom right:
+   - **✓ L-ZIP MCP** - Toggle MCP enable/disable
+   - **🧪 L-ZIP Estimator** - Open token calculator
+4. Click **🧪 L-ZIP Estimator** to test
+5. Paste your prompt in the input box
+6. Copy the compressed version with one click
+7. Use it with any AI model (ChatGPT, Claude, Gemini, etc.)
 
 ## 📋 Requirements
 
