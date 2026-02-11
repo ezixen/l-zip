@@ -1,4 +1,4 @@
-# ![EZIXEN Logo](logo.png) L-ZIP: Logic-based Zero-redundancy Information Prompting
+# ![EZIXEN Logo](logo.jpg) L-ZIP: Logic-based Zero-redundancy Information Prompting
 
 **By [ezixen](https://github.com/ezixen)**
 
