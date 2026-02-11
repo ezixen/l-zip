@@ -29,7 +29,7 @@ L-ZIP is a symbolic prompting protocol designed to work seamlessly with modern L
 
 ```bash
 # Clone or navigate to the project directory
-cd D:\Dev\L-ZIP
+cd l-zip
 
 # (Optional) Create a virtual environment
 python -m venv venv

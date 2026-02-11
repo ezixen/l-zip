@@ -77,7 +77,7 @@ Tokens saved: 24 (85.7% compression)
       "servers": {
         "l-zip": {
           "command": "python",
-          "args": ["D:/Dev/l-zip-deploy/mcp_stdio_server.py"],
+          "args": ["/path/to/l-zip/mcp_stdio_server.py"],
           "description": "L-ZIP Token Compression (50-85% savings)"
         }
       }
@@ -99,7 +99,7 @@ If GitHub Copilot doesn't support MCP servers yet:
 
 1. **Copy snippets:**
    ```powershell
-   xcopy "D:\Dev\l-zip-deploy\.vscode\python.json" "%APPDATA%\Code\User\snippets\" /Y
+   xcopy "/path/to/l-zip/.vscode/python.json" "%APPDATA%\Code\User\snippets\" /Y
    ```
 
 2. **Use in VS Code:**
@@ -111,7 +111,7 @@ If GitHub Copilot doesn't support MCP servers yet:
 
 Run this in VS Code terminal:
 ```powershell
-cd D:\Dev\l-zip-deploy
+cd /path/to/l-zip
 python -c "from lzip import LZIPTranslator; t=LZIPTranslator(); print(t.translate_to_lzip('Your prompt here')[0])"
 ```
 
@@ -121,7 +121,7 @@ python -c "from lzip import LZIPTranslator; t=LZIPTranslator(); print(t.translat
 
 ```powershell
 # Navigate to deployment folder
-cd D:\Dev\l-zip-deploy
+cd /path/to/l-zip
 
 # Test initialize
 echo '{"method":"initialize","params":{}}' | python mcp_stdio_server.py
@@ -134,14 +134,14 @@ echo '{"method":"tools/call","params":{"name":"compress_prompt","arguments":{"pr
 
 ## Files Available
 
-| File | Location | Purpose |
-|------|----------|---------|
-| **mcp_stdio_server.py** | D:\Dev\l-zip-deploy\ | MCP server (production) |
-| **VSCODE_MCP_SETUP.md** | D:\Dev\l-zip-deploy\ | Full setup guide (420 lines) |
-| **mcp-config.json** | D:\Dev\l-zip-deploy\ | VS Code MCP config |
-| **examples.py** | D:\Dev\l-zip-deploy\ | 18 ready prompts |
-| **demo_lzip.py** | D:\Dev\l-zip-deploy\ | Demo script |
-| **cli.py** | D:\Dev\l-zip-deploy\ | Interactive CLI |
+| File | Purpose |
+|------|---------|  
+| **mcp_stdio_server.py** | MCP server (production) |
+| **VSCODE_MCP_SETUP.md** | Full setup guide (420 lines) |
+| **mcp-config.json** | VS Code MCP config |
+| **examples.py** | 18 ready prompts |
+| **demo_lzip.py** | Demo script |
+| **cli.py** | Interactive CLI |
 
 ---
 
@@ -169,7 +169,7 @@ echo '{"method":"tools/call","params":{"name":"compress_prompt","arguments":{"pr
 Open a new VS Code terminal and try:
 
 ```powershell
-cd D:\Dev\l-zip-deploy
+cd /path/to/l-zip
 python demo_lzip.py
 ```
 
@@ -179,9 +179,9 @@ You'll see live compression demo with stats!
 
 ## Support & Help
 
-- **Setup Guide:** [VSCODE_MCP_SETUP.md](D:\Dev\l-zip-deploy\VSCODE_MCP_SETUP.md)
-- **Examples:** [examples.py](D:\Dev\l-zip-deploy\examples.py)
-- **Quick Ref:** [VSCODE_QUICK_REFERENCE.md](D:\Dev\l-zip-deploy\VSCODE_QUICK_REFERENCE.md)
+- **Setup Guide:** [VSCODE_MCP_SETUP.md](VSCODE_MCP_SETUP.md)
+- **Examples:** [examples.py](examples.py)
+- **Quick Ref:** [VSCODE_QUICK_REFERENCE.md](VSCODE_QUICK_REFERENCE.md)
 - **GitHub Issues:** https://github.com/ezixen/l-zip/issues
 
 ---

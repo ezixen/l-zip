@@ -5,7 +5,7 @@
 ### Step 1: Install Location
 Your L-ZIP MCP server is installed at:
 ```
-D:\Dev\l-zip-deploy\
+/path/to/l-zip/
 ```
 
 ### Step 2: Add to VS Code Settings
@@ -24,7 +24,7 @@ D:\Dev\l-zip-deploy\
       "servers": {
         "l-zip": {
           "command": "python",
-          "args": ["D:/Dev/l-zip-deploy/mcp_stdio_server.py"],
+          "args": ["/path/to/l-zip/mcp_stdio_server.py"],
           "description": "L-ZIP Token Compression (50-70% savings)"
         }
       }
@@ -42,7 +42,7 @@ D:\Dev\l-zip-deploy\
       "servers": {
         "l-zip": {
           "command": "python",
-          "args": ["D:/Dev/l-zip-deploy/mcp_stdio_server.py"],
+          "args": ["/path/to/l-zip/mcp_stdio_server.py"],
           "description": "L-ZIP Token Compression"
         }
       }
@@ -95,7 +95,7 @@ Content:
 {
   "l-zip": {
     "command": "python",
-    "args": ["D:/Dev/l-zip-deploy/mcp_stdio_server.py"],
+    "args": ["/path/to/l-zip/mcp_stdio_server.py"],
     "description": "L-ZIP Token Compression - Save 50-70% on tokens"
   }
 }
@@ -115,7 +115,7 @@ Content:
 
 2. **Test MCP Server Manually**
    ```powershell
-   cd D:\Dev\l-zip-deploy
+   cd /path/to/l-zip
    echo '{"method":"initialize","params":{}}' | python mcp_stdio_server.py
    ```
    Should return JSON response
@@ -129,7 +129,7 @@ Content:
 
 Run this test:
 ```powershell
-cd D:\Dev\l-zip-deploy
+cd /path/to/l-zip
 python -c "from lzip import LZIPTranslator; print('✓ Import OK')"
 ```
 

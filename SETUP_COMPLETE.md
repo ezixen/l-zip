@@ -10,7 +10,7 @@ You now have a fully functional **L-ZIP (Logic-based Zero-redundancy Information
 ### What Was Created
 
 ```
-D:\Dev\L-ZIP/
+l-zip/
 ├── lzip.py                 # Core translator engine (350+ lines)
 ├── mcp_server.py           # MCP server implementation
 ├── cli.py                  # Interactive CLI tool
@@ -42,7 +42,7 @@ All tests passing:
 
 ### 1. Run Interactive CLI
 ```powershell
-cd D:\Dev\L-ZIP
+cd l-zip
 python cli.py
 
 # Inside CLI:
@@ -146,7 +146,7 @@ Result:  94.5% compression
 
 ### Step 2: Push Your Code
 ```powershell
-cd D:\Dev\L-ZIP
+cd l-zip
 
 # Add GitHub remote
 git remote add origin https://github.com/YOUR_USERNAME/l-zip.git
