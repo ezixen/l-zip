@@ -346,73 +346,22 @@ class LZIPTranslator:
         return text.strip()
     
     def _compress_phrases(self, text: str) -> str:
-        """Compress common phrases and filler words - ULTRA AGGRESSIVE mode"""
+        """Compress common phrases and filler words - CONSERVATIVE mode"""
+        # Only remove truly redundant filler words, preserve content
         
-        # Step 0a: Handle repetitive words early
-        words = text.split()
-        if len(words) > 0:
-            compressed_words = []
-            i = 0
-            while i < len(words):
-                current_word = words[i]
-                count = 1
-                while i + count < len(words) and words[i + count] == current_word:
-                    count += 1
-                
-                if count >= 5:
-                    compressed_words.append(f"{current_word}x{count}")
-                    i += count
-                else:
-                    compressed_words.append(current_word)
-                    i += 1
-            
-            text = ' '.join(compressed_words)
-        
-        # Step 0b: Multi-word phrase replacements with high compression
-        phrase_compressions = [
-            (r'\bas soon as\b', 'ASAP'),
-            (r'\bas possible\b', 'ASAP'),
-            (r'\bstep by step\b', 'step-by-step'),
-            (r'\bchain of thought\b', 'CoT'),
-            (r'\broot cause\b', 'root-cause'),
-            (r'\bunit test\b', 'unittest'),
-            (r'\bint test\b', 'inttest'),
-            (r'\bdesign pattern\b', 'pat'),
-            (r'\brest api\b', 'REST'),
-            (r'\basync await\b', 'async'),
-            (r'\berror handling\b', 'errors'),
-            (r'\buser experience\b', 'UX'),
-            (r'\buser interface\b', 'UI'),
-            (r'\bmachine learning\b', 'ML'),
-            (r'\bdeep learning\b', 'DL'),
-            (r'\bartificial intelligence\b', 'AI'),
-            (r'\bnatural language\b', 'NLP'),
-            (r'\bdata structure\b', 'data-struct'),
-            (r'\bcloud infrastructure\b', 'cloud-infra'),
-            (r'\bmonitoring and logging\b', 'monitoring'),
-            (r'\bsecurity vulnerabilities\b', 'vuln'),
-            (r'\bperformance issues\b', 'perf-issues'),
-            (r'\bcode style\b', 'style'),
-            (r'\berror handling\b', 'error-handling'),
-            (r'\breal-world\b', 'real'),
-        ]
-        
-        for pattern, replacement in phrase_compressions:
-            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-        
-        # Step 1: Apply abbreviations (telegraphic compression)
+        # Step 1: Apply abbreviations if enabled (telegraphic compression)
         if self.config.enable_symbols:
+            # Apply number abbreviations first (5000 -> 5k, etc.)
             for pattern, replacement in self.ABBREVIATIONS.items():
                 text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
         
-        # Step 2: Apply symbol replacements
+        # Step 2: Apply symbol replacements if enabled (with word boundaries - SAFE)
         if self.config.enable_symbols:
             for pattern, replacement in self.SYMBOL_MAP.items():
                 text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
         
-        # Step 3: ULTRA-AGGRESSIVE filler word removal
-        # Remove ALL truly redundant words
-        ultra_aggressive_fillers = [
+        # Step 3: Remove only the most obvious filler words with strict word boundaries
+        fillers = [
             r'\bplease\b',
             r'\bkindly\b',
             r'\bfor me\b',
@@ -424,78 +373,12 @@ class LZIPTranslator:
             r'\byou can\b',
             r'\bcan you\b',
             r'\bcould you\b',
-            r'\byou should\b',
-            r'\bshould be\b',
-            r'\bmust be\b',
-            r'\btry to\b',
-            r'\battempt to\b',
-            r'\bin order to\b',
-            r'\bhow to\b',
-            r'\bthe following\b',
-            r'\bthe next\b',
-            r'\bnext step\b',
-            r'\bnext steps\b',
-            r'\bafter that\b',
-            r'\bthen do\b',
-            r'\bafter completing\b',
-            r'\bonce you\b',
-            r'\bnow\b',
-            r'\bhowever\b',
-            r'\bmoreover\b',
-            r'\bfurthermore\b',
-            r'\badditionally\b',
-            r'\bfinally\b',
-            r'\bconsequently\b',
-            r'\balso\b',
-            r'\bas well\b',
-            r'\bas well as\b',
-            r'\btoo\b',
-            r'\bvery\b',
-            r'\breally\b',
-            r'\bquite\b',
-            r'\bsuch that\b',
-            r'\bin such a way\b',
-            r'\bat all\b',
-            r'\bin any way\b',
-            r'\bin all\b',
-            r'\bin any case\b',
-            r'\bby the way\b',
-            r'\bof course\b',
-            r'\bcertainly\b',
-            r'\bobviously\b',
-            r'\bclearly\b',
-            r'\bsimply\b',
-            r'\bjust\b',
-            r'\bonly\b',
-            r'\byes\b',
-            r'\bno\b',
-            r'\bor so\b',
-            r'\b(?:a|an|the)\s+(?:a|an|the)\b',  # Double articles
         ]
         
-        for filler in ultra_aggressive_fillers:
+        for filler in fillers:
             text = re.sub(filler, '', text, flags=re.IGNORECASE)
         
-        # Step 4: Remove articles and prepositions
-        unnecessary = [
-            r'\ba\s+',
-            r'\ban\s+',
-            r'\bthe\s+',
-            r'\bof\s+',
-            r'\bfor\s+',
-            r'\bto\s+',
-            r'\bin\s+',
-            r'\bon\s+',
-            r'\bat\s+',
-            r'\bby\s+',
-            r'\bwith\s+',
-            r'\bfrom\s+',
-        ]
-        
-        for word in unnecessary:
-            text = re.sub(word, '', text, flags=re.IGNORECASE)
-        
-        # Step 5: Normalize whitespace
+        # Step 4: Remove double spaces created by replacements
         text = re.sub(r'\s+', ' ', text)
         
         return text.strip()
