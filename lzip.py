@@ -15,6 +15,8 @@ class LZIPConfig:
     preserve_examples: bool = True  # Keep code examples untouched
     include_annotations: bool = False  # Add // explanations
     min_phrase_length: int = 3  # Min words before converting
+    enable_symbols: bool = True  # Enable symbol replacements like => | +
+    enable_extended_ops: bool = True  # Enable IMAGE, VIDEO, AUDIO operators
 
 
 class LZIPTranslator:
@@ -27,95 +29,94 @@ class LZIPTranslator:
         'LIM': 'limit|constraint|restrict|without|no |only|maximum|minimum|under |less than|more than',
         'CTX': 'context|background|given|based on|considering|with the following|assume|given that',
         'OUT': 'output|format|return|provide as|in the form of|as a|structure should be',
-        'SUM': 'summarize|summary|list|top|key|main points|highlight',
-        'GEN': 'generate|write|create|produce|make|build|code|script|function',
+        'SUM': 'summarize|summary|top|key|main points|highlight',
+        'GEN': 'generate|write|create|produce|make|build',
         'EVAL': 'evaluate|assess|analyze|critique|review|examine|check for',
         'THINK': 'think|reason|step by step|explain|breakdown|detail|walk through',
-        'VIS': 'visualize|diagram|chart|graph|flowchart|draw|image|illustration',
+        'VIS': 'visualize|diagram|chart|graph|flowchart|draw|image|illustration|picture',
     }
     
-    # Phrase mappings for common expressions
-    PHRASE_MAP = {
-        # Imperatives & requests
-        r'\bplease\b': '',
-        r'\byou should\b': '',
-        r'\bi want you to\b': '',
-        r'\bcan you\b': '',
-        r'\bcould you\b': '',
-        r'\byou must\b': '',
-        r'\bmake sure you\b': '',
+    # Extended operators for specific domains
+    EXTENDED_OPERATORS = {
+        # Image/Visual generation
+        'STYLE': 'style|artistic style|art style|look like|appearance',
+        'MOOD': 'mood|feeling|atmosphere|vibe|emotion',
+        'LIGHTING': 'lighting|light|illumination|shadows',
+        'COLORS': 'colors|color scheme|palette|hues',
+        'QUALITY': 'quality|resolution|detailed|detail level',
+        'RATIO': 'aspect ratio|dimensions|size',
+        'POSE': 'pose|position|posture|stance',
+        'BG': 'background|backdrop|setting',
+        'SUBJECT': 'subject|main subject|focus on',
         
-        # Verbose connectors
-        r'\band then\b': '|',
-        r'\bfollowed by\b': '|',
-        r'\bas well as\b': '+',
-        r'\balso\b': '+',
-        r'\bincluding\b': '+',
-        r'\bwith the addition of\b': '+',
-        r'\badditionally\b': '+',
+        # Code/Technical
+        'LANG': 'language|programming language|in language',
+        'FRAMEWORK': 'framework|using framework|library',
+        'PATTERN': 'pattern|design pattern|architecture',
+        'PERF': 'performance|optimize|efficiency',
+        'TEST': 'test|testing|unit test|integration test',
         
-        # Results & implications
-        r'\bresult in\b': '=>',
-        r'\bleading to\b': '=>',
-        r'\bwhich leads to\b': '=>',
-        r'\bthus\b': '=>',
-        r'\ntherefore\b': '=>',
-        r'\bconsequently\b': '=>',
-        
-        # Comparisons
-        r'\bor\b': '|',
-        r'\beither\s+(.+?)\s+or\b': r'\1/',
-        
-        # Temporal
-        r'\bwithin\s+(\d+)\s+(days|hours|weeks|months|years)\b': r'@\1\2_abbr',
-        r'\bby\s+(\w+)\b': r'@\1',
-        r'\tat\s+(\w+)\b': r'@\1',
-        
-        # Filler words
-        r'\breally\b': '',
-        r'\bvery\b': '',
-        r'\bactually\b': '',
-        r'\bjust\b': '',
-        r'\bbasically\b': '',
-        r'\bassentially\b': '',
+        # Content/Writing
+        'TONE': 'tone|writing tone|voice',
+        'AUDIENCE': 'audience|for audience|target',
+        'LEN': 'length|word count|character count|long|short',
     }
     
-    # Phrase abbreviations
-    PHRASE_ABBREV = {
-        'and': '+',
-        'or': '|',
-        'then': '|',
-        'follows': '|',
-        'leading': '=>',
-        'results': '=>',
-        'implies': '=>',
-        'therefore': '=>',
-        'thus': '=>',
-        'consequently': '=>',
-        'but': '~',  # with caveat
-        'except': '~',
-        'unless': '~',
+    # Symbol replacements with word boundaries (SAFE - won't corrupt words)
+    SYMBOL_MAP = {
+        r'\b(and then|followed by|after that|next step)\b': '|',
+        r'\b(and also|as well as|along with|combined with)\b': '+',
+        r'\b(leads to|results in|implies|therefore|thus|consequently)\b': '=>',
+        r'\b(becomes|transforms to|converts to|changes to)\b': '->',
+        r'\b(or alternatively|or else)\b': '//',
+        # Removed overly ambiguous: "for", "above", "except", "but not"
+        # These have too many contextual meanings
     }
     
-    # Technique detections
+    # Common abbreviations (telegraphic compression - safe substitutions)
+    ABBREVIATIONS = {
+        # Scale/quantity
+        r'\b(\d+),?000,?000\b': r'\1M',  # 5,000,000 -> 5M
+        r'\b(\d+),?000\b': r'\1k',  # 5,000 -> 5k
+        r'\bthousand\b': 'k',
+        r'\bmillion\b': 'M',
+        r'\bbillion\b': 'B',
+        
+        # Time
+        r'\bseconds?\b': 's',
+        r'\bminutes?\b': 'm',
+        r'\bhours?\b': 'h',
+        r'\bdays?\b': 'd',
+        r'\bweeks?\b': 'w',
+        r'\bmonths?\b': 'mo',
+        r'\byears?\b': 'y',
+        
+        # Common tech terms (word boundaries - safe)
+        r'\bimage\b': 'img',
+        r'\bvideo\b': 'vid',
+        r'\bdocument\b': 'doc',
+        r'\bapplication\b': 'app',
+        r'\bdatabase\b': 'db',
+        r'\brepository\b': 'repo',
+        r'\bconfiguration\b': 'config',
+        r'\bauthentication\b': 'auth',
+        r'\badministrator\b': 'admin',
+        r'\benvironment\b': 'env',
+    }
+    
+    # Technique detections - only specific multi-word phrases to avoid false matches
     TECHNIQUE_KEYWORDS = {
         'step by step': 'THINK:StepByStep',
         'chain of thought': 'THINK:ChainOfThought',
-        'json': 'OUT:JSON',
-        'table': 'OUT:Table',
-        'markdown': 'OUT:Markdown',
-        'code': 'GEN:Code',
-        'script': 'GEN:Script',
-        'function': 'GEN:Function',
+        'output as json': 'OUT:JSON',
+        'return json': 'OUT:JSON',
+        'as a table': 'OUT:Table',
+        'in markdown': 'OUT:Markdown',
+        'write code': 'GEN:Code',
+        'generate script': 'GEN:Script',
         'bullet points': 'OUT:Bullets',
-        'list': 'OUT:List',
-        'concise': 'LIM:Concise',
-        'detailed': 'LIM:Detailed',
-        'brief': 'LIM:Brief',
-        'example': 'CTX:Example',
-        'bug': 'EVAL:Bugs',
-        'security': 'EVAL:Security',
-        'performance': 'EVAL:Performance',
+        'as a list': 'OUT:List',
+        'provide list': 'OUT:List',
     }
     
     def __init__(self, config: LZIPConfig = None):
@@ -149,11 +150,15 @@ class LZIPTranslator:
         remaining_text = self._clean_text(remaining_text)
         remaining_text = re.sub(r'\s+', ' ', remaining_text).strip()
         
-        # Step 6: Build final L-ZIP
-        if lzip_parts:
+        # Step 6: Build final L-ZIP - ALWAYS include remaining text with operators
+        if lzip_parts and remaining_text:
+            final_lzip = ' '.join(lzip_parts) + ' ' + remaining_text
+        elif lzip_parts:
             final_lzip = ' '.join(lzip_parts)
+        elif remaining_text:
+            final_lzip = remaining_text
         else:
-            final_lzip = remaining_text[:100] if remaining_text else "UNCLASSIFIED"
+            final_lzip = "UNCLASSIFIED"
         
         # Calculate compression stats
         metadata['final_length'] = len(final_lzip.split())
@@ -242,16 +247,49 @@ class LZIPTranslator:
             except:
                 pass
         
-        # Look for technique keywords
+        # Look for technique keywords with word boundaries
         for keyword, operator in self.TECHNIQUE_KEYWORDS.items():
-            if keyword.lower() in remaining.lower():
+            # Use word boundary regex to avoid matching within words
+            pattern = r'\b' + re.escape(keyword) + r'\b'
+            if re.search(pattern, remaining, re.IGNORECASE):
                 operators.append(operator)
-                remaining = remaining.replace(keyword, '', 1)
+                # Use regex replacement with word boundaries
+                remaining = re.sub(pattern, '', remaining, count=1, flags=re.IGNORECASE)
+        
+        # Look for extended operators if enabled (IMAGE, VIDEO, AUDIO specific)
+        if self.config.enable_extended_ops:
+            self._detect_extended_operators(operators, remaining)
         
         # Remove extra spaces
         remaining = re.sub(r'\s+', ' ', remaining).strip()
         
         return operators, remaining
+    
+    def _detect_extended_operators(self, operators: List[str], text: str) -> None:
+        """Detect extended operators for specialized tasks (image, video, etc.)"""
+        text_lower = text.lower()
+        
+        # Detect image-specific operators by keywords
+        image_keywords = {
+            'STYLE': ['realistic', 'anime', 'oil painting', 'sketch', '3d', 'cartoon', 'photorealistic'],
+            'MOOD': ['happy', 'dark', 'cheerful', 'friendly', 'dramatic', 'mysterious', 'serene'],
+            'LIGHTING': ['sunny', 'noon', 'golden hour', 'backlit', 'dramatic lighting', 'soft light'],
+            'QUALITY': ['high quality', 'best quality', '4k', '8k', 'detailed', 'ultra detailed'],
+            'RATIO': ['16:9', '9:16', '1:1', '4:3', '3:2', 'aspect ratio'],
+        }
+        
+        for op, keywords in image_keywords.items():
+            for keyword in keywords:
+                if keyword in text_lower:
+                    # Extract the specific value found
+                    if keyword in ['16:9', '9:16', '1:1', '4:3', '3:2']:
+                        operators.append(f'{op}:{keyword}')
+                    elif keyword in ['4k', '8k']:
+                        operators.append(f'QUALITY:{keyword.upper()}')
+                    else:
+                        value = keyword.replace(' ', '_').title()
+                        operators.append(f'{op}:{value}')
+                    break  # Only add each operator type once
     
     def _clean_text(self, text: str) -> str:
         """Clean up and normalize text"""
@@ -264,29 +302,40 @@ class LZIPTranslator:
         return text.strip()
     
     def _compress_phrases(self, text: str) -> str:
-        """Compress common phrases and filler words"""
-        # Apply phrase replacements
-        for pattern, replacement in self.PHRASE_MAP.items():
-            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        """Compress common phrases and filler words - CONSERVATIVE mode"""
+        # Only remove truly redundant filler words, preserve content
         
-        # Remove common filler words more aggressively
+        # Step 1: Apply abbreviations if enabled (telegraphic compression)
+        if self.config.enable_symbols:
+            # Apply number abbreviations first (5000 -> 5k, etc.)
+            for pattern, replacement in self.ABBREVIATIONS.items():
+                text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        
+        # Step 2: Apply symbol replacements if enabled (with word boundaries - SAFE)
+        if self.config.enable_symbols:
+            for pattern, replacement in self.SYMBOL_MAP.items():
+                text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        
+        # Step 3: Remove only the most obvious filler words with strict word boundaries
         fillers = [
-            r'\b(please|kindly|would you|can you|could you|would|could|should|may|might)\b',
-            r'\b(very|really|actually|basically|essentially|obviously|certainly|just|simply|only)\b',
-            r'\b(that|this|this is|that is)\b\s*',
-            r'\b(a\s+|an\s+|the\s+)(?=[a-z])',  # Remove articles before nouns
-            r'\s*\b(for me|to me|to us|from me)\b',
+            r'\bplease\b',
+            r'\bkindly\b',
+            r'\bfor me\b',
+            r'\bto me\b',
+            r'\bthank you\b',
+            r'\bi would like\b',
+            r'\bif you could\b',
+            r'\bif you can\b',
+            r'\byou can\b',
+            r'\bcan you\b',
+            r'\bcould you\b',
         ]
         
         for filler in fillers:
-            text = re.sub(filler, '', text, count=5, flags=re.IGNORECASE)
+            text = re.sub(filler, '', text, flags=re.IGNORECASE)
         
-        # Remove double spaces created by replacements
+        # Step 4: Remove double spaces created by replacements
         text = re.sub(r'\s+', ' ', text)
-        
-        # Remove redundant punctuation
-        text = re.sub(r'[,;:]+\s*$', '', text)
-        text = re.sub(r'[,;:]+', ',', text)  # Consolidate multiple punctuation
         
         return text.strip()
     
@@ -316,16 +365,23 @@ class LZIPTranslator:
         return role.replace(' ', '_').title()
     
     def _shorten_term(self, term: str) -> str:
-        """Shorten long terms"""
+        """Shorten long terms into compact identifiers"""
         term = term.strip()
         
-        # Remove articles and small words
-        term = re.sub(r'\b(a|an|the|for|to|and|or)\b\s*', '', term, flags=re.IGNORECASE)
+        # Remove only truly redundant articles and prepositions
+        term = re.sub(r'\b(a|an|the)\b\s+', '', term, flags=re.IGNORECASE)
         
-        # Convert to underscore format
-        term = term.replace(' ', '_')
+        # Convert to underscore format and title case for readability
+        words = term.split()
+        # Keep important words, capitalize them
+        important_words = [w for w in words if len(w) > 2 or w.lower() in ['ai', 'ui', 'ux', 'db', 'id', 'io']]
         
-        return term
+        # Join with underscores and capitalize
+        result = '_'.join(important_words)
+        # Title case each word
+        result = '_'.join(word.capitalize() for word in result.split('_'))
+        
+        return result if result else term.replace(' ', '_')
     
     def _normalize_output(self, output: str) -> str:
         """Normalize output format names"""

@@ -1,0 +1,86 @@
+{
+  "name": "lzip-vscode",
+  "displayName": "L-ZIP - AI Prompt Compressor",
+  "description": "Compress AI prompts by 40-70% with context-aware token reduction. Save costs, reduce latency, and lower AI's carbon footprint.",
+  "version": "0.0.1",
+  "publisher": "ezixen",
+  "author": {
+    "name": "ezixen",
+    "url": "https://github.com/ezixen"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezixen/L-ZIP"
+  },
+  "bugs": {
+    "url": "https://github.com/ezixen/L-ZIP/issues"
+  },
+  "homepage": "https://github.com/ezixen/L-ZIP#readme",
+  "keywords": [
+    "ai",
+    "prompt",
+    "compression",
+    "token",
+    "optimization",
+    "chatgpt",
+    "claude",
+    "gemini",
+    "copilot",
+    "lzip",
+    "mcp",
+    "efficiency",
+    "cost-reduction",
+    "carbon-footprint"
+  ],
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/extension.js",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "lzip.toggleMcp",
+        "title": "L-ZIP: Toggle MCP"
+      },
+      {
+        "command": "lzip.toggleEstimator",
+        "title": "L-ZIP: Toggle Estimator"
+      }
+    ],
+    "configuration": {
+      "title": "L-ZIP",
+      "properties": {
+        "lzip.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Python executable used to run the L-ZIP translator."
+        },
+        "lzip.estimatorDefaultText": {
+          "type": "string",
+          "default": " Insert prompt to get an estimate of the token difference.",
+          "description": "Default text for the estimator input box."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "watch": "echo Watching for changes...",
+    "lint": "echo Linting..."
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.87.0"
+  }
+}
