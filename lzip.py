@@ -102,6 +102,34 @@ class LZIPTranslator:
         r'\bauthentication\b': 'auth',
         r'\badministrator\b': 'admin',
         r'\benvironment\b': 'env',
+        
+        # Additional tech terms for better compression
+        r'\bpython\b': 'Py',
+        r'\btypescript\b': 'TS',
+        r'\bjavascript\b': 'JS',
+        r'\bkubernetes\b': 'K8s',
+        r'\bdocker\b': 'DCK',
+        r'\bapi\b': 'API',
+        r'\bjson\b': 'JSON',
+        r'\bxml\b': 'XML',
+        r'\bhtml\b': 'HTML',
+        r'\bcss\b': 'CSS',
+        r'\brest\b': 'REST',
+        r'\bhttp\b': 'HTTP',
+        r'\bsql\b': 'SQL',
+        r'\bnosql\b': 'NoSQL',
+        r'\bgraphql\b': 'GQL',
+        r'\bdevops\b': 'DevOps',
+        r'\bcicd\b': 'CI/CD',
+        r'\btesting\b': 'Test',
+        r'\boptimiz\w*\b': 'Opt',
+        r'\bperformance\b': 'Perf',
+        r'\befficiency\b': 'Eff',
+        r'\bsecurity\b': 'Sec',
+        r'\breliability\b': 'Rel',
+        r'\bscalability\b': 'Scale',
+        r'\bmaintainability\b': 'Maint',
+        r'\baccessibility\b': 'A11y',
     }
     
     # Technique detections - only specific multi-word phrases to avoid false matches
@@ -127,6 +155,18 @@ class LZIPTranslator:
         Translate English prompt to L-ZIP format
         Returns: (lzip_prompt, metadata)
         """
+        # Handle empty input
+        if not english_prompt or not english_prompt.strip():
+            metadata = {
+                'original_length': 0,
+                'original_tokens': 0,
+                'original_text': english_prompt,
+                'final_length': 0,
+                'final_tokens': 0,
+                'compression_ratio': 100.0,
+            }
+            return "", metadata
+        
         metadata = {
             'original_length': len(english_prompt.split()),
             'original_tokens': len(english_prompt) // 4,  # Rough estimate
@@ -195,8 +235,10 @@ class LZIPTranslator:
         
         # Look for OBJ (objective detection)  
         obj_patterns = [
-            (r'(?:write|create|generate|produce|develop|design)\s+([a-z\s]{2,50}?)(?:[.,;]|and|for|to)', 1),
-            (r'(?:objective|goal)\s+(?:is\s+to\s+)?(?:write|create)?\s+([a-z\s]{2,50}?)(?:[.,;])',  1),
+            # "your objective is to write..." or "goal is to create..." 
+            (r'(?:your\s+)?(?:objective|goal)\s+(?:is\s+)?(?:to\s+)?([a-z0-9_\s]{2,50}?)(?:\.|,|;|and|$)', 1),
+            # Direct action detection
+            (r'(?<!to\s)(?:write|create|generate|produce|develop|design)\s+([a-z0-9_\s]{2,50}?)(?:\.|,|;|and)', 1),
         ]
         
         for pattern, group in obj_patterns:
@@ -214,7 +256,8 @@ class LZIPTranslator:
         
         # Look for LIM (constraints)
         lim_patterns = [
-            (r'(?:without|no|only|limit|restrict|maximum)\s+([a-z\s]{2,40}?)(?:[.,;]|and)', 1),
+            (r'(?:limit|restrict|maximum|under|no|without|only)\s+(?:the\s+)?(?:output\s+)?(?:to\s+)?([a-z0-9\s]{2,40}?)(?:[.,;]|and)', 1),
+            (r'(?:under|less than|maximum of)\s+([0-9a-z\s]{2,40}?)(?:[.,;])', 1),
         ]
         
         for pattern, group in lim_patterns:
@@ -231,7 +274,8 @@ class LZIPTranslator:
         
         # Look for OUT (output format)
         out_patterns = [
-            (r'(?:output|format|return|provide)\s+(?:as\s+)?(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
+            (r'(?:output|format|return|provide|should be)\s+(?:as\s+)?(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
+            (r'formatted\s+as\s+(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
         ]
         
         for pattern, group in out_patterns:
@@ -302,10 +346,58 @@ class LZIPTranslator:
         return text.strip()
     
     def _compress_phrases(self, text: str) -> str:
-        """Compress common phrases and filler words - CONSERVATIVE mode"""
-        # Only remove truly redundant filler words, preserve content
+        """Compress common phrases and filler words - AGGRESSIVE mode for better compression"""
         
-        # Step 1: Apply abbreviations if enabled (telegraphic compression)
+        # Step 0a: Handle repetitive words (e.g., "word word word..." -> handle)
+        # Replace 5+ repeated words with count notation
+        words = text.split()
+        if len(words) > 0:
+            compressed_words = []
+            i = 0
+            while i < len(words):
+                current_word = words[i]
+                count = 1
+                # Count consecutive identical words
+                while i + count < len(words) and words[i + count] == current_word:
+                    count += 1
+                
+                if count >= 5:
+                    # Replace with x{count} notation for highly repetitive content
+                    compressed_words.append(f"{current_word}x{count}")
+                    i += count
+                else:
+                    compressed_words.append(current_word)
+                    i += 1
+            
+            text = ' '.join(compressed_words)
+        
+        # Step 0: Apply multi-word phrase replacements FIRST (before abbreviations)
+        phrase_compressions = [
+            (r'\bstep by step\b', 'step_by_step'),
+            (r'\bchain of thought\b', 'chain_of_thought'),
+            (r'\broot cause\b', 'root_cause'),
+            (r'\bunit test\b', 'unit_test'),
+            (r'\bint test\b', 'int_test'),
+            (r'\bdesign pattern\b', 'design_pattern'),
+            (r'\brest api\b', 'REST_API'),
+            (r'\basync await\b', 'async_await'),
+            (r'\bstateless api\b', 'stateless_API'),
+            (r'\berror handling\b', 'error_handling'),
+            (r'\buser experience\b', 'UX'),
+            (r'\buser interface\b', 'UI'),
+            (r'\bmachine learning\b', 'ML'),
+            (r'\bdeep learning\b', 'DL'),
+            (r'\bartificial intelligence\b', 'AI'),
+            (r'\bnatural language\b', 'NL'),
+            (r'\bdata structure\b', 'data_struct'),
+            (r'\bcloud infrastructure\b', 'cloud_infra'),
+            (r'\bmonitoring and logging\b', 'monitoring+logging'),
+        ]
+        
+        for pattern, replacement in phrase_compressions:
+            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        
+        # Step 1: Apply abbreviations (telegraphic compression)
         if self.config.enable_symbols:
             # Apply number abbreviations first (5000 -> 5k, etc.)
             for pattern, replacement in self.ABBREVIATIONS.items():
@@ -316,7 +408,7 @@ class LZIPTranslator:
             for pattern, replacement in self.SYMBOL_MAP.items():
                 text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
         
-        # Step 3: Remove only the most obvious filler words with strict word boundaries
+        # Step 3: Remove filler words and verbose phrases
         fillers = [
             r'\bplease\b',
             r'\bkindly\b',
@@ -329,12 +421,56 @@ class LZIPTranslator:
             r'\byou can\b',
             r'\bcan you\b',
             r'\bcould you\b',
+            r'\byou should\b',
+            r'\bshould be\b',
+            r'\bmust be\b',
+            r'\btry to\b',
+            r'\battempt to\b',
+            r'\bin order to\b',
+            r'\bhow to\b',
+            r'\bthe following\b',
+            r'\bthe next\b',
+            r'\bnext step\b',
+            r'\bnext steps\b',
+            r'\bafter that\b',
+            r'\bthen do\b',
+            r'\bafter completing\b',
+            r'\bonce you\b',
+            r'\bnow\b',
+            r'\bhowever\b',
+            r'\bmoreover\b',
+            r'\bfurthermore\b',
+            r'\badditionally\b',
+            r'\bfinally\b',
+            r'\bconsequently\b',
+            r'\balso\b',
+            r'\bas well\b',
+            r'\btoo\b',
+            r'\bvery\b',
+            r'\breally\b',
+            r'\bquite\b',
+            r'\bsuch that\b',
+            r'\bin such a way\b',
         ]
         
         for filler in fillers:
             text = re.sub(filler, '', text, flags=re.IGNORECASE)
         
-        # Step 4: Remove double spaces created by replacements
+        # Step 4: Clean up prepositions and articles more aggressively
+        # Remove articles and small prepositions when they're clearly redundant
+        unnecessary_words = [
+            r'\ba\s+',
+            r'\ban\s+',
+            r'\bthe\s+',
+            r'\bsome\s+',
+            r'\bany\s+',
+        ]
+        
+        for word in unnecessary_words:
+            # Be careful with technical terms - don't remove if followed by capitals (acronyms)
+            text = re.sub(word, '', text, flags=re.IGNORECASE)
+        
+        # Step 5: Remove double spaces and normalize whitespace
         text = re.sub(r'\s+', ' ', text)
         
         return text.strip()
@@ -343,8 +479,14 @@ class LZIPTranslator:
         """Normalize role names"""
         role = role.lower().strip()
         role_map = {
-            'expert': 'Expert',
+            # Compound roles (check first - longest match first)
             'senior developer': 'Senior_Dev',
+            'data scientist': 'Data_Scientist',
+            'software architect': 'Software_Architect',
+            'machine learning': 'ML',
+            'devops engineer': 'DevOps_Eng',
+            # Single word roles
+            'expert': 'Expert',
             'architect': 'Architect',
             'analyst': 'Analyst',
             'consultant': 'Consultant',
@@ -356,9 +498,13 @@ class LZIPTranslator:
             'researcher': 'Researcher',
             'doctor': 'Doctor',
             'lawyer': 'Lawyer',
+            'developer': 'Dev',
         }
         
-        for key, val in role_map.items():
+        # Sort by length (longest first) to match compound roles before single words
+        sorted_roles = sorted(role_map.items(), key=lambda x: len(x[0]), reverse=True)
+        
+        for key, val in sorted_roles:
             if key in role:
                 return val
         
