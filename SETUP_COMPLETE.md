@@ -1,5 +1,8 @@
 # L-ZIP PROJECT SETUP COMPLETE ✅
 
+**Project Author:** [ezixen](https://github.com/ezixen)  
+**Created:** February 11, 2026
+
 ## 🎉 Project Summary
 
 You now have a fully functional **L-ZIP (Logic-based Zero-redundancy Information Prompting)** MCP Server that reduces AI prompt token usage by **40-70%**.

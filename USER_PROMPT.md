@@ -1,6 +1,9 @@
 # L-ZIP Project - User Original Prompt
 
-## Date: February 11, 2026
+**Project Author:** ezixen  
+**Date:** February 11, 2026  
+**GitHub:** https://github.com/ezixen/l-zip  
+**Logo:** EZIXEN Smiley Balloon
 
 ### User Request
 

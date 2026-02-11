@@ -10,8 +10,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="l-zip",
     version="1.0.0",
-    author="L-ZIP Team",
+    author="ezixen",
+    author_email="ezixen@dev.local",
     description="Logic-based Zero-redundancy Information Prompting - MCP Server",
+    project_urls={
+        "Source": "https://github.com/ezixen/l-zip",
+        "Issue Tracker": "https://github.com/ezixen/l-zip/issues",
+    },
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/l-zip",

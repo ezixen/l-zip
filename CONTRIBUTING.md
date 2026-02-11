@@ -1,5 +1,7 @@
 # CONTRIBUTING TO L-ZIP
 
+**Project Created By:** [ezixen](https://github.com/ezixen)
+
 Thank you for your interest in contributing to L-ZIP! 
 
 ## Getting Started

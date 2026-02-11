@@ -1,4 +1,6 @@
-# L-ZIP: Logic-based Zero-redundancy Information Prompting
+# ![EZIXEN Logo](logo.png) L-ZIP: Logic-based Zero-redundancy Information Prompting
+
+**By [ezixen](https://github.com/ezixen)**
 
 A Python-based MCP (Model Context Protocol) server that translates verbose English prompts into the compact **L-ZIP** format, reducing token usage by **40-70%** while maintaining precision and clarity.
 
@@ -338,5 +340,7 @@ For issues, questions, or suggestions:
 ---
 
 **Version:** 1.0.0  
+**Author:** [ezixen](https://github.com/ezixen)  
 **Last Updated:** February 2026  
-**Status:** Production Ready ✅
+**Status:** Production Ready ✅  
+**License:** MIT
