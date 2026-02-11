@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Quick validation script for L-ZIP functionality
 """
 
 import sys
 import os
+
+# Set UTF-8 encoding for Windows console
+if sys.platform == 'win32':
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 # Add current directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +38,7 @@ def test_basic_translation():
     print(f"Compressed tokens: {metadata['final_tokens']}")
     
     assert metadata['compression_ratio'] > 0
-    print("\n✓ TEST PASSED\n")
+    print("\n[PASS] TEST PASSED\n")
 
 
 def test_mcp_server():
@@ -51,6 +58,11 @@ def test_mcp_server():
     
     print(f"\nRequest: {request['action']}")
     print(f"Status: {result['status']}")
+    
+    if result['status'] == 'error':
+        print(f"Error: {result.get('message', 'Unknown error')}")
+        raise AssertionError(f"MCP Server returned error: {result.get('message', 'Unknown')}")
+    
     print(f"L-ZIP: {result['lzip_prompt']}")
     print(f"Compression: {result['metadata']['compression_ratio']}%")
     
@@ -73,9 +85,9 @@ def test_dictionary():
     all_ops = ['ACT', 'OBJ', 'LIM', 'CTX', 'OUT']
     for op in all_ops:
         assert op in result['operators'], f"Missing operator: {op}"
-        print(f"  ✓ {op}: {result['operators'][op]}")
+        print(f"  [OK] {op}: {result['operators'][op]}")
     
-    print("\n✓ TEST PASSED\n")
+    print("\n[PASS] TEST PASSED\n")
 
 
 def test_batch_translation():
@@ -106,7 +118,7 @@ def test_batch_translation():
     print(f"\nTotal compression: {aggregate['compression_ratio']}")
     
     assert result['status'] == 'success'
-    print("\n✓ TEST PASSED\n")
+    print("\n[PASS] TEST PASSED\n")
 
 
 def test_realworld_examples():
@@ -146,9 +158,9 @@ def test_realworld_examples():
         print(f"  Original: {metadata['original_length']} words")
         print(f"  Compressed: {metadata['final_length']} words")
         assert metadata['compression_ratio'] > 30, f"Low compression for {name}"
-        print(f"  ✓ PASSED")
+        print(f"  [PASS]")
     
-    print("\n✓ ALL REAL-WORLD TESTS PASSED\n")
+    print("\n[PASS] ALL REAL-WORLD TESTS PASSED\n")
 
 
 def test_roundtrip():
@@ -170,7 +182,7 @@ def test_roundtrip():
     assert 'Python' in english
     assert 'Function' in english
     
-    print("\n✓ TEST PASSED\n")
+    print("\n[PASS] TEST PASSED\n")
 
 
 def main():
@@ -188,12 +200,12 @@ def main():
         test_roundtrip()
         
         print("=" * 70)
-        print("✅ ALL TESTS PASSED!")
+        print("[SUCCESS] ALL TESTS PASSED!")
         print("=" * 70 + "\n")
         return 0
         
     except Exception as e:
-        print(f"\n❌ TEST FAILED: {e}")
+        print(f"\n[FAIL] TEST FAILED: {e}")
         import traceback
         traceback.print_exc()
         return 1
