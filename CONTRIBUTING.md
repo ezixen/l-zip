@@ -42,7 +42,6 @@ pip install -r requirements.txt
 - Use type hints where possible
 - Add docstrings to all functions
 - Keep functions focused and modular
-- Maximum line length: 100 characters
 
 Example:
 ```python
