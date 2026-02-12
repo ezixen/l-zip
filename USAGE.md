@@ -94,7 +94,7 @@ WRITE:Python|FIND:Prime|TO:N
 Compression Report:
   Original tokens: 14
   Compressed tokens: 5
-  Token reduction: 64.29%
+  Token reduction: 64.29% (example)
   Compression ratio: 2.80x
 
 ✓ L-ZIP result copied to clipboard! Ready to paste into any AI.
@@ -195,7 +195,7 @@ Write a detailed explanation of how machine learning works in simple terms for b
 WRITE:ML|EXPLAIN:Simple|AUDIENCE:Beginner
 ```
 
-**Compression:** 20 tokens → 6 tokens (70% reduction)
+**Compression (example):** 20 tokens → 6 tokens (~70% reduction)
 
 ---
 
@@ -294,7 +294,7 @@ Each translation includes a compression report:
 Compression Report:
   Original tokens: 25
   Compressed tokens: 8
-  Token reduction: 68%
+  Token reduction: 68% (example)
   Compression ratio: 3.1x
 ```
 

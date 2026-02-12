@@ -5,7 +5,7 @@
 
 ## 🎉 Project Summary
 
-You now have a fully functional **L-ZIP (Logic-based Zero-redundancy Information Prompting)** MCP Server that reduces AI prompt token usage by **40-70%**.
+You now have a fully functional **L-ZIP (Logic-based Zero-redundancy Information Prompting)** MCP Server that typically reduces AI prompt token usage by **5-35%** (varies by prompt).
 
 ### What Was Created
 
@@ -35,7 +35,7 @@ All tests passing:
 - ✓ MCP server integration (54% compression)
 - ✓ Dictionary and templates
 - ✓ Batch translation (35% average compression)
-- ✓ Real-world examples (50-95% compression)
+- ✓ Real-world examples (6-35% compression)
 - ✓ Round-trip translation
 
 ## 🚀 Quick Start
@@ -93,7 +93,7 @@ python validate.py       # Validation tests with examples
 - `LEN:` - Length limit
 
 ### Core Functionality
-- ✅ English → L-ZIP translation with 40-70% compression
+- ✅ English → L-ZIP translation with typical 5-35% compression (varies)
 - ✅ L-ZIP → English round-trip conversion
 - ✅ Batch processing of multiple prompts
 - ✅ Token counting and compression metrics
@@ -301,7 +301,7 @@ Start with:
 
 ## ⚡ Performance Notes
 
-- **Compression**: 40-70% reduction on typical prompts
+- **Compression**: typically 5-35% reduction on many prompts (varies)
 - **Speed**: <50ms per prompt on modern CPU
 - **Memory**: <5MB for the entire system
 - **Dependencies**: None (pure Python)
@@ -322,7 +322,7 @@ Start with:
 
 ## 🎯 Key Achievements
 
-✅ **40-70% token compression** achieved across multiple domains  
+✅ **5-35% token compression** observed across multiple domains (varies)  
 ✅ **15 semantic operators** designed and implemented  
 ✅ **25+ test cases** with 100% pass rate  
 ✅ **6 real-world examples** demonstrating effectiveness  

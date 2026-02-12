@@ -143,7 +143,7 @@ When you click the estimator button:
 ### Token Savings Example
 - **Original:** "Please write a Python function that validates email addresses with proper error handling and comprehensive test coverage"
 - **L-ZIP:** `ACT:Dev [Lang:Python] OBJ:Email_Validator OUT:Function+Tests+ErrorHandling`
-- **Savings:** 65% token reduction
+- **Savings:** varies by prompt (typically 5-35%)
 
 ## 🆘 Getting Help
 

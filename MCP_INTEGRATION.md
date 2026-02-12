@@ -9,7 +9,7 @@
 
 ## Overview
 
-L-ZIP MCP Server provides Model Context Protocol integration for token-efficient prompting. Use it to automatically compress your prompts to 50-70% of original size, saving tokens and costs on GitHub Copilot, Claude, ChatGPT, and other LLMs.
+L-ZIP MCP Server provides Model Context Protocol integration for token-efficient prompting. Typical token reduction is **5-35%** (varies by prompt and domain), saving tokens and costs on GitHub Copilot, Claude, ChatGPT, and other LLMs.
 
 ---
 
@@ -277,17 +277,10 @@ ACT:Debugger OBJ:Fix_Bug THINK:RootCause+Prevention OUT:Solution
 ### Pricing
 - GitHub Copilot Pro: **$0.003 per 1K input tokens**
 
-### Example Savings (100 prompts)
-- Average prompt: 45 words (~58 tokens)
-- L-ZIP compression: 93%
-- Tokens saved per prompt: 54
-- **Cost saved per 100 prompts: $0.016** (16 cents)
-- **Cost saved per 1,000 prompts: $0.16** (16 cents per thousand)
-
-### Annual Impact (1000 prompts/month)
-- Tokens saved: 648,000
-- Cost saved: **$1.94/month** or **$23.33/year**
-- Plus: **Token limits stretched 10x further**
+### Example Savings (Illustrative)
+- Typical token reduction: **5-35%** (varies by prompt)
+- Savings depend on prompt length, structure, and domain
+- Measure on your own prompts for accurate cost impact
 
 ---
 
@@ -300,7 +293,7 @@ ACT:Debugger OBJ:Fix_Bug THINK:RootCause+Prevention OUT:Solution
    ```
    ACT:Senior_Dev [Lang:Python] OBJ:Parse_JSON OUT:Function+Tests
    ```
-3. AI generates code using 70% fewer tokens! ✓
+3. AI generates code using fewer tokens (varies) ✓
 
 ### With Python Script
 

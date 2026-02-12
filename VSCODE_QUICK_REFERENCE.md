@@ -56,7 +56,7 @@ THINK:RootCause + Solution OUT:Fixed_Code + Explanation
 1. Generate an L-ZIP prompt (use snippets or create manually)
 2. Copy the L-ZIP formatted text
 3. Paste into your AI tool: ChatGPT, Claude, Gemini, etc.
-4. Get 50-70% more efficient responses
+4. Get more efficient responses with shorter prompts
 
 ### Using Snippets in VS Code
 
@@ -115,12 +115,12 @@ THINK:RootCause OUT:Solution + Prevention
 
 | Task | Compression | Savings |
 |------|-------------|----------|
-| Simple function | 40-50% | ~30 seconds |
-| Complex class | 55-65% | ~2 minutes |
-| Full API module | 60-75% | ~5 minutes |
-| Test suite | 45-55% | ~2 minutes |
+| Simple function | 8-20% | varies |
+| Complex class | 10-25% | varies |
+| Full API module | 15-30% | varies |
+| Test suite | 10-25% | varies |
 
-**Average:** 50-70% token reduction vs natural language
+**Average:** 5-35% token reduction vs natural language (varies)
 
 ---
 

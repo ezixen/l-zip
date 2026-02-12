@@ -6,7 +6,7 @@
 
 **By [ezixen](https://github.com/ezixen)**
 
-A Python-based MCP (Model Context Protocol) server that translates verbose English prompts into the compact **L-ZIP** format, reducing token usage by **40-70%** while maintaining precision and clarity.
+A Python-based MCP (Model Context Protocol) server that translates verbose English prompts into the compact **L-ZIP** format, typically reducing token usage by **5-35%** (varies by prompt and domain) while maintaining precision and clarity.
 
 ## 🎯 Overview
 
@@ -14,7 +14,7 @@ L-ZIP is a symbolic prompting protocol designed to work seamlessly with modern L
 
 ### Key Benefits
 
-- ⚡ **40-70% token reduction** on typical prompts
+- ⚡ **Typically 5-35% token reduction** (varies by prompt complexity)
 - 💰 **Lower API costs** through reduced token consumption
 - 🚀 **Faster response times** due to smaller context windows
 - 🎯 **Improved clarity** through structured formatting
@@ -204,7 +204,7 @@ ACT:DevOps [Service:Kubernetes] CTX:[Error_Logs] OBJ:Fix_OOM => Prevent_Future
 EVAL:Root_Cause | Immediate_Fix | Long_Term_Solution OUT:Action_Plan
 ```
 
-**Token Savings:** ~62%
+**Token Savings (example):** ~62% (varies by prompt)
 
 ## 🔧 Configuration
 
@@ -225,11 +225,11 @@ Typical compression results across different domains:
 
 | Domain | Avg Compression | Notes |
 |--------|-----------------|-------|
-| Code Generation | 60-70% | Highest compression; models understand symbolic notation well |
-| Data Analysis | 55-65% | Strong compression; structured data fits well |
-| Writing Tasks | 45-55% | Moderate compression; more nuance needed |
-| General Q&A | 40-50% | Variable; depends on question complexity |
-| Creative Tasks | 35-45% | Lower compression; more context often needed |
+| Code Generation | 15-35% | Higher compression on structured prompts |
+| Data Analysis | 10-30% | Solid compression with structured data |
+| Writing Tasks | 8-25% | Moderate compression; nuance needed |
+| General Q&A | 5-20% | Highly variable; depends on question complexity |
+| Creative Tasks | 5-15% | Lower compression; context matters |
 
 ## 🤝 Integration with LLMs
 

@@ -9,7 +9,7 @@ All notable changes to the L-ZIP VS Code extension will be documented in this fi
 - Status bar MCP toggle button with persistent state
 - Token estimator with visual output panel
 - One-click copy button for L-ZIP compressed prompts
-- Context-aware prompt compression (40-70% token reduction)
+- Context-aware prompt compression (typically 5-35% token reduction)
 - Extended operator detection (IMAGE, CODE, CONTENT domains)
 - Symbol replacements for common phrases (`=>`, `|`, `+`, etc.)
 - Number abbreviations (5000 → 5k, 1M, 1B)

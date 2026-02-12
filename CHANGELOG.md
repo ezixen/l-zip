@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial release of L-ZIP MCP Server
-- Core L-ZIP translator module with 40-70% token compression
+- Core L-ZIP translator module with typical 5-35% token compression (varies by prompt)
 - 15 core operators (ACT, OBJ, LIM, CTX, OUT, SUM, GEN, EVAL, THINK, VIS, =>, |, +, @, LEN)
 - MCP server implementation for integration  
 - Interactive CLI interface for testing and development
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Round-trip translation (L-ZIP to English and back)
 
 ### Features
-- Token compression: 40-70% reduction on typical prompts
+- Token compression: typically 5-35% reduction on many prompts (varies)
 - Multiple use case templates (code, content, business, technical)
 - Model-agnostic design works with any modern LLM
 - Local processing with no external dependencies

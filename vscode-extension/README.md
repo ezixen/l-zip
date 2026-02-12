@@ -2,7 +2,7 @@
 
 **Logic-based Zero-redundancy Information Prompting for VS Code**
 
-Compress your AI prompts by 40-70% while preserving meaning. Save tokens, reduce costs, and get faster responses from AI models.
+Compress your AI prompts while preserving meaning. Typical token reduction is **5-35%** (varies by prompt), saving costs and improving response speed.
 
 ## 🎯 Features
 
@@ -170,7 +170,7 @@ vscode-extension/
 ### v0.0.1 (Current)
 - ✅ Status bar MCP toggle
 - ✅ Token estimator with copy button
-- ✅ Context-aware compression (40-70% token reduction)
+- ✅ Context-aware compression (typically 5-35% token reduction)
 - ✅ Extended operators (IMAGE, CODE, CONTENT)
 - ✅ Symbol replacements with word boundaries
 - ✅ Number and time abbreviations
