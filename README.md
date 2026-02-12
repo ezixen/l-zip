@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.jpg" alt="EZIXEN Logo"/>
+  <img src="images/L-ZIP-logo.png" alt="L-ZIP Logo"/>
 </div>
 
 # Logic-based Zero-redundancy Information Prompting

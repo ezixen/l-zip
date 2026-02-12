@@ -40,5 +40,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='D:\\Dev\\L-ZIP\\L-ZIP-ezixen-yoyo-logo-128-2026.ico',
+    icon='D:\\Dev\\L-ZIP\\images\\L-ZIP-logo.ico',
 )

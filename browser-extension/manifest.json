@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "L-ZIP Auto Translator",
+  "version": "0.1.0",
+  "description": "Auto-translate prompts to L-ZIP on AI sites with manual on/off toggle.",
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "L-ZIP Auto",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lzip_translator.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "lzip-auto@ezixen.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}
