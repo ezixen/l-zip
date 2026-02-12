@@ -22,9 +22,7 @@ L-ZIP is a symbolic prompting protocol designed to work seamlessly with modern L
 
 ## 📦 Installation
 
-### ⚡ Windows Users: Download Executable (Quickest!)
-
-**No Python, no installation needed!**
+### ⚡ Windows Executable
 
 1. Download `lzip.exe` from the [**releases folder**](https://github.com/ezixen/L-ZIP/tree/main/releases)
 2. Double-click to run
