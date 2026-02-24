@@ -63,7 +63,6 @@ Enter English prompt (or 'cancel' to abort):
 # Or use shorthand:
 lzip> dict          # Show L-ZIP operators
 lzip> templates     # Show example templates
-lzip> demo          # Run interactive demo
 lzip> help          # Show all commands
 ```
 
