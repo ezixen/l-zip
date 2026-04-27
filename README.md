@@ -20,16 +20,24 @@ L-ZIP is a symbolic prompting protocol designed to work seamlessly with modern L
 - 🎯 **Improved clarity** through structured formatting
 - 🌍 **Model agnostic** - works with any modern LLM (Gemini, Claude, Grok, GPT, etc.)
 
-### Future Enhancements
-- Unique English word completion abbreviation (shortest unique prefix; dictionary-based, deterministic)
-- Domain-specific extensions (legal, medical, finance...)
-- Custom operator definitions
-- AI-powered prompt optimization
-- Lightweight context pruning model (intent classifier) for removing redundant phrases. An example of required context level: "My wife bought a car for me." -> keep "for me" (beneficiary is essential) "Create a detailed image of a honeybee for me." -> drop "for me" (imperative request already implies it)
-- Integration with popular AI frameworks (would be great if the AI service providers implement it directly, so no workarounds)
-- VS Code (and IDE) extension for real-time compression (chatbots do not offer an API to their prompt...)
-- Browser extension for web-based AI tools
-- Community operator registry
+## 🚀 Future Enhancements
+
+- [ ] Unique English word completion abbreviation (shortest unique prefix; dictionary-based, deterministic)
+- [ ] Domain-specific extensions (legal, medical, finance...)
+- [ ] Custom operator definitions
+- [ ] AI-powered prompt optimization
+- [ ] Lightweight context pruning model (intent classifier) for removing redundant phrases. An example of required context level:
+  "My wife bought a car for me." -> keep "for me" (beneficiary is essential)
+  "Create a detailed image of a honeybee for me." -> drop "for me" (imperative request already implies it)
+- [ ] Integration with popular AI frameworks (would be great if the AI service providers implement it directly)
+- [ ] VS Code extension for real-time compression (chats do not offer API to prompt)
+- [ ] Browser extension for web-based AI tools
+- [ ] Community operator registry, in practical terms something like this:
+  A central list of operators people create Metadata for each one: name, symbol/syntax, description, examples, version, author
+  Validation status: tested, compatibility notes, safety checks
+  Installation/discovery support: easy way for others to find and use operators
+  Governance: moderation/review so low-quality or unsafe operators are filtered out
+  Think of it like a package index, but specifically for reusable L-ZIP operators. 
  
 ## 📦 Installation
 
@@ -321,21 +329,6 @@ result = server.handle_batch_translate(prompts)
 ```
 ACT:Dev OBJ:Code // "Write Python code"
 ```
-
-## 🚀 Future Enhancements
-
-- [ ] Unique English word completion abbreviation (shortest unique prefix; dictionary-based, deterministic)
-- [ ] Domain-specific extensions (legal, medical, finance...)
-- [ ] Custom operator definitions
-- [ ] AI-powered prompt optimization
-- [ ] Lightweight context pruning model (intent classifier) for removing redundant phrases. An example of required context level:
-  "My wife bought a car for me." -> keep "for me" (beneficiary is essential)
-  "Create a detailed image of a honeybee for me." -> drop "for me" (imperative request already implies it)
-- [ ] Integration with popular AI frameworks (would be great if the AI service providers implement it directly)
-- [ ] VS Code extension for real-time compression (chats do not offer API to prompt)
-- [ ] Browser extension for web-based AI tools
-- [ ] Community operator registry
-
 ## 📝 License
 
 MIT License - See LICENSE file
